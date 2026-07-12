@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Outlet, Link, NavLink, useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
 import { useTheme } from "@/contexts/ThemeContext"
@@ -28,6 +28,7 @@ import {
 import { Button } from "@/components/ui/Button"
 import { CommandPalette } from "@/components/CommandPalette"
 import { NotificationPanel } from "@/components/NotificationPanel"
+import { NotificationService } from "@/services/notification.service"
 import { cn } from "@/utils/cn"
 
 export function DashboardLayout() {
@@ -43,6 +44,39 @@ export function DashboardLayout() {
   const [isCommandOpen, setIsCommandOpen] = useState(false)
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
+
+  // Fetch unread notification count
+  useEffect(() => {
+    const fetchUnread = async () => {
+      if (user) {
+        try {
+          const list = await NotificationService.getNotifications(user.id)
+          setUnreadCount(list.filter((n: any) => !n.read).length)
+        } catch {
+          setUnreadCount(0)
+        }
+      }
+    }
+    fetchUnread()
+    const interval = setInterval(fetchUnread, 30000) // Refresh every 30s
+    return () => clearInterval(interval)
+  }, [user])
+
+  // Re-fetch when notification panel closes (user may have read some)
+  useEffect(() => {
+    if (!isNotificationsOpen && user) {
+      const fetchUnread = async () => {
+        try {
+          const list = await NotificationService.getNotifications(user.id)
+          setUnreadCount(list.filter((n: any) => !n.read).length)
+        } catch {
+          setUnreadCount(0)
+        }
+      }
+      fetchUnread()
+    }
+  }, [isNotificationsOpen, user])
 
   const toggleSidebar = () => {
     const nextState = !isSidebarCollapsed
@@ -113,7 +147,7 @@ export function DashboardLayout() {
       {/* Sidebar - Desktop */}
       <aside
         className={cn(
-          "hidden md:flex flex-col border-r border-border/80 bg-card transition-all duration-300 relative z-30",
+          "hidden md:flex flex-col border-r border-border/80 bg-card transition-all duration-300 relative z-30 h-screen sticky top-0",
           isSidebarCollapsed ? "w-16" : "w-64"
         )}
       >
@@ -277,7 +311,9 @@ export function DashboardLayout() {
                 className="relative"
               >
                 <Bell className="h-4 w-4 text-foreground/80" />
-                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" />
+                )}
               </Button>
               <NotificationPanel
                 open={isNotificationsOpen}
