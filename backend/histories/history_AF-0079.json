@@ -1,0 +1,18 @@
+[
+  {
+    "id": "hist_xzoun2gr5",
+    "assetTag": "AF-0079",
+    "date": "2026-07-12T10:40:56.034Z",
+    "type": "return",
+    "details": "Checked-in custody return. Condition notes: returned clean",
+    "performedBy": "Sarah Connor"
+  },
+  {
+    "id": "hist_k8unntj18",
+    "assetTag": "AF-0079",
+    "date": "2026-07-12T10:40:34.061Z",
+    "type": "allocation",
+    "details": "Allocated custody to department dept_3. Expected Return: 2026-07-13",
+    "performedBy": "Sarah Connor"
+  }
+]

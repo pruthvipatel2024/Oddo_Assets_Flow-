@@ -1,5 +1,29 @@
 [
   {
+    "id": "hist_a68wfg8wp",
+    "assetTag": "AF-0002",
+    "date": "2026-07-12T10:53:17.415Z",
+    "type": "allocation",
+    "details": "Allocated custody to user usr_admin. Expected Return: 2026-07-09",
+    "performedBy": "Sarah Connor"
+  },
+  {
+    "id": "hist_lzhd24vo5",
+    "assetTag": "AF-0002",
+    "date": "2026-07-12T10:52:42.427Z",
+    "type": "maintenance",
+    "details": "Repair ticket resolved. Asset condition: good. Resolution notes: ...",
+    "performedBy": "Sarah Connor"
+  },
+  {
+    "id": "hist_vktqu6php",
+    "assetTag": "AF-0002",
+    "date": "2026-07-12T10:41:34.153Z",
+    "type": "maintenance",
+    "details": "Repair ticket assigned to technician. Notes: please do that as possible as soon",
+    "performedBy": "Sarah Connor"
+  },
+  {
     "id": "hist_cttpovgmh",
     "assetTag": "AF-0002",
     "date": "2026-07-12T09:44:55.097Z",

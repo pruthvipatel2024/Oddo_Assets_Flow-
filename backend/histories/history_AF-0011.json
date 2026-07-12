@@ -1,0 +1,18 @@
+[
+  {
+    "id": "hist_kw6ir3rzo",
+    "assetTag": "AF-0011",
+    "date": "2026-07-12T10:42:08.895Z",
+    "type": "maintenance",
+    "details": "Logged repair ticket: the chair spongue is not good please fix that. Priority: low",
+    "performedBy": "Sarah Connor"
+  },
+  {
+    "id": "hist_5j1egptg1",
+    "assetTag": "AF-0011",
+    "date": "2026-07-12T10:40:08.896Z",
+    "type": "allocation",
+    "details": "Allocated custody to user usr_admin. Expected Return: 2026-07-24",
+    "performedBy": "Sarah Connor"
+  }
+]
