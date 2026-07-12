@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card"
-import { Shield, ShieldAlert, KeyRound, Mail, UserCheck, ArrowRight, UserPlus, Info } from "lucide-react"
+import { KeyRound, Mail, UserCheck, ArrowRight, UserPlus, Info } from "lucide-react"
 import { toast } from "sonner"
 import { Dialog, DialogContent } from "@/components/ui/Dialog"
 
@@ -30,7 +30,7 @@ export function LoginPage() {
   const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [mode, setMode] = React.useState<"login" | "signup">("login")
-  
+
   // Forgot Password state
   const [forgotOpen, setForgotOpen] = React.useState(false)
   const [forgotEmail, setForgotEmail] = React.useState("")
@@ -100,21 +100,6 @@ export function LoginPage() {
       toast.error(error.message || "Something went wrong.")
     } finally {
       setForgotLoading(false)
-    }
-  }
-
-  const loginAsRole = async (role: "admin" | "manager" | "employee") => {
-    setIsSubmitting(true)
-    try {
-      const email = `${role}@assetflow.com`
-      const password = `${role}123`
-      await login(email, password)
-      toast.success(`Demo Mode: Logged in as ${role.toUpperCase()}`)
-      navigate("/dashboard")
-    } catch (error: any) {
-      toast.error(error.message || "Error launching demo mode.")
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
@@ -255,52 +240,9 @@ export function LoginPage() {
                 </Button>
               </form>
             )}
-
-            <div className="relative my-4 flex items-center justify-center">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-border/80" />
-              </div>
-              <span className="relative bg-card px-2.5 text-[10px] font-semibold text-muted-foreground uppercase">
-                Or Quick Access Demo
-              </span>
-            </div>
-
-            {/* Quick Login Preset Buttons */}
-            <div className="grid grid-cols-3 gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => loginAsRole("admin")}
-                disabled={isSubmitting}
-                className="text-[10px] h-8 flex flex-col gap-0.5 justify-center py-1 group hover:border-primary/50 cursor-pointer"
-              >
-                <Shield className="h-3.5 w-3.5 text-primary group-hover:scale-105 transition-transform" />
-                <span>Admin</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => loginAsRole("manager")}
-                disabled={isSubmitting}
-                className="text-[10px] h-8 flex flex-col gap-0.5 justify-center py-1 group hover:border-amber-500/50 cursor-pointer"
-              >
-                <ShieldAlert className="h-3.5 w-3.5 text-amber-500 group-hover:scale-105 transition-transform" />
-                <span>Manager</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => loginAsRole("employee")}
-                disabled={isSubmitting}
-                className="text-[10px] h-8 flex flex-col gap-0.5 justify-center py-1 group hover:border-emerald-500/50 cursor-pointer"
-              >
-                <UserCheck className="h-3.5 w-3.5 text-emerald-500 group-hover:scale-105 transition-transform" />
-                <span>Employee</span>
-              </Button>
-            </div>
           </CardContent>
         </Card>
-        
+
         <p className="text-[10px] text-center text-muted-foreground">
           Protected by enterprise-grade OAuth2 and SSO. For support, contact IT Helpdesk.
         </p>
