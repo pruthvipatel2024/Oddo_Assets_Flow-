@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+
+@layer base {
+  :root {
+    --background: 210 20% 98%; /* Slate 50 tint */
+    --foreground: 224 71.4% 4.1%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    
+    --primary: 221.2 83.2% 53.3%; /* Modern royal blue */
+    --primary-foreground: 210 20% 98%;
+    
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220 14.3% 4.1%;
+    
+    --muted: 220 14.3% 94%;
+    --muted-foreground: 220 8.9% 46.1%;
+    
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220 14.3% 4.1%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --background: 222.2 84% 4.9%; /* Rich deep dark */
+    --foreground: 210 20% 98%;
+    
+    --card: 222.2 84% 6.5%;
+    --card-foreground: 210 20% 98%;
+    
+    --popover: 222.2 84% 6.5%;
+    --popover-foreground: 210 20% 98%;
+    
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    
+    --secondary: 217.2 32.6% 12%;
+    --secondary-foreground: 210 20% 98%;
+    
+    --muted: 217.2 32.6% 12%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 217.2 32.6% 12%;
+    --accent-foreground: 210 20% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    
+    --border: 217.2 32.6% 15%;
+    --input: 217.2 32.6% 15%;
+    --ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/40;
+}
+
+/* Fix native calendar and clock picker indicators in inputs */
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator,
+.dark input::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(2) contrast(1) !important;
+  opacity: 1 !important;
+  cursor: pointer !important;
+}
+
+input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 3px;
+  transition: background 0.15s ease;
+}
+
+input::-webkit-calendar-picker-indicator:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Force dark mode select and inputs styling */
+.dark select,
+.dark input {
+  color-scheme: dark !important;
+  color: #f8fafc !important;
+}
+
+.dark select option {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Style select chevron arrow white in dark mode and dark slate in light mode */
+select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%230f172a%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E") !important;
+}
+
+.dark select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23f8fafc%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E") !important;
+}

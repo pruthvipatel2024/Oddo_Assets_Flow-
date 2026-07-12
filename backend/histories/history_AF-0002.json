@@ -1,0 +1,18 @@
+[
+  {
+    "id": "hist_dizc4thwg",
+    "assetTag": "AF-0002",
+    "date": "2026-07-12T06:35:45.849Z",
+    "type": "return",
+    "details": "Checked-in custody return. Condition notes: Check-in return notes logged.",
+    "performedBy": "Sarah Connor"
+  },
+  {
+    "id": "hist_sbd2ww9wh",
+    "assetTag": "AF-0002",
+    "date": "2026-07-12T05:53:21.123Z",
+    "type": "transfer",
+    "details": "Transfer approved by Sarah Connor. Custody shifted to employee emp_peter.",
+    "performedBy": "Sarah Connor"
+  }
+]
