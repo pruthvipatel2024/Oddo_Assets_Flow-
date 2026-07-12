@@ -467,7 +467,7 @@ export function AssetDirectoryPage() {
               <Input type="date" value={assetAcqDate} onChange={(e) => setAssetAcqDate(e.target.value)} className="text-xs" />
             </div>
             <div className="space-y-1">
-              <label className="font-bold text-muted-foreground uppercase text-[10px]">Cost Value ($)</label>
+              <label className="font-bold text-muted-foreground uppercase text-[10px]">Cost Value (₹)</label>
               <Input type="number" value={assetAcqCost} onChange={(e) => setAssetAcqCost(Number(e.target.value))} className="text-xs" />
             </div>
           </div>
@@ -683,7 +683,7 @@ export function AssetDirectoryPage() {
                 </div>
                 <div className="flex justify-between border-b pb-1.5 border-dashed border-border/40">
                   <span className="text-muted-foreground">Acquisition Value:</span>
-                  <span className="font-medium text-foreground">${selectedAsset.acquisitionCost}</span>
+                  <span className="font-medium text-foreground">₹{selectedAsset.acquisitionCost}</span>
                 </div>
                 <div className="flex justify-between border-b pb-1.5 border-dashed border-border/40">
                   <span className="text-muted-foreground">Storage Location:</span>

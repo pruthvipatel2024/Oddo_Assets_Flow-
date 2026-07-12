@@ -183,7 +183,7 @@ export function ReportsPage() {
             <CardContent className="p-4 space-y-1">
               <span className="text-[9px] uppercase font-bold text-muted-foreground">Valuation Net</span>
               <p className="text-xl font-bold">
-                ${assets.reduce((sum, item) => sum + (item.acquisitionCost || 0), 0).toLocaleString()}
+                ₹{assets.reduce((sum, item) => sum + (item.acquisitionCost || 0), 0).toLocaleString()}
               </p>
               <div className="text-[10px] text-muted-foreground">Total acquisition cost</div>
             </CardContent>
@@ -230,7 +230,7 @@ export function ReportsPage() {
                       fontSize: "11px",
                     }}
                   />
-                  <Bar dataKey="cost" fill="#3b82f6" name="Total Net Value ($)" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="cost" fill="#3b82f6" name="Total Net Value (₹)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>

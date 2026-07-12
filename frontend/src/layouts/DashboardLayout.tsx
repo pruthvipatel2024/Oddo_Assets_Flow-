@@ -42,16 +42,7 @@ export function DashboardLayout() {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isCommandOpen, setIsCommandOpen] = useState(false)
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
-  const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
-
-  const [activeWorkspace, setActiveWorkspace] = useState("Corporate HQ (Primary)")
-  const workspaces = [
-    "Corporate HQ (Primary)",
-    "Europe Logistics Hub",
-    "Asia R&D Campus",
-    "North America Warehouse",
-  ]
 
   const toggleSidebar = () => {
     const nextState = !isSidebarCollapsed
@@ -142,49 +133,21 @@ export function DashboardLayout() {
 
         {/* Workspace Switcher */}
         <div className="p-3 border-b border-border/40 relative">
-          <button
-            onClick={() => !isSidebarCollapsed && setIsWorkspaceOpen(!isWorkspaceOpen)}
-            disabled={isSidebarCollapsed}
+          <div
             className={cn(
-              "w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-secondary/60 transition-colors text-left text-xs font-semibold select-none",
-              isSidebarCollapsed ? "justify-center" : "justify-between"
+              "w-full flex items-center gap-2 px-2 py-1.5 text-left text-xs font-semibold select-none",
+              isSidebarCollapsed ? "justify-center" : "justify-start"
             )}
           >
             {isSidebarCollapsed ? (
               <Building2 className="h-4 w-4 text-muted-foreground" />
             ) : (
-              <>
-                <div className="truncate">
-                  <span className="text-[10px] text-muted-foreground font-medium block uppercase tracking-wider">Workspace</span>
-                  <span className="truncate block font-semibold text-foreground/90">{activeWorkspace}</span>
-                </div>
-                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-              </>
-            )}
-          </button>
-
-          {isWorkspaceOpen && !isSidebarCollapsed && (
-            <>
-              <div className="fixed inset-0 z-30" onClick={() => setIsWorkspaceOpen(false)} />
-              <div className="absolute left-3 right-3 mt-1 py-1 rounded-md border border-border bg-card shadow-lg z-40 max-h-48 overflow-y-auto">
-                {workspaces.map((ws) => (
-                  <button
-                    key={ws}
-                    onClick={() => {
-                      setActiveWorkspace(ws)
-                      setIsWorkspaceOpen(false)
-                    }}
-                    className={cn(
-                      "w-full px-3 py-1.5 text-xs text-left hover:bg-secondary/80 transition-colors",
-                      activeWorkspace === ws && "font-semibold text-primary"
-                    )}
-                  >
-                    {ws}
-                  </button>
-                ))}
+              <div className="truncate">
+                <span className="text-[10px] text-muted-foreground font-medium block uppercase tracking-wider">Workspace</span>
+                <span className="truncate block font-semibold text-foreground/90">Corporate HQ (Primary)</span>
               </div>
-            </>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Sidebar Nav */}
