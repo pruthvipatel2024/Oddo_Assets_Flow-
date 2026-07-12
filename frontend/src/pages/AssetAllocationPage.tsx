@@ -455,7 +455,15 @@ export function AssetAllocationPage() {
 
           <div className="space-y-1">
             <label className="font-bold text-muted-foreground uppercase text-[10px]">Select Available Asset</label>
-            <Select value={allocAssetTag} onChange={(e) => setAllocAssetTag(e.target.value)}>
+            <Select
+              value={allocAssetTag}
+              onChange={(e) => {
+                setAllocAssetTag(e.target.value)
+                setConflictActive(false)
+                setConflictHolder("")
+                setConflictAlloc(null)
+              }}
+            >
               <option value="">Choose Asset...</option>
               {assets.map((asset) => (
                 <option key={asset.tag} value={asset.tag}>

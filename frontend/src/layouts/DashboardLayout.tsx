@@ -63,6 +63,18 @@ export function DashboardLayout() {
     return () => clearInterval(interval)
   }, [user])
 
+  // Handle global search shortcut (Ctrl+K or Cmd+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setIsCommandOpen((prev) => !prev)
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
   // Re-fetch when notification panel closes (user may have read some)
   useEffect(() => {
     if (!isNotificationsOpen && user) {

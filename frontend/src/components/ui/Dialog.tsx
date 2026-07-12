@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { createPortal } from "react-dom"
 import { AnimatePresence, motion } from "framer-motion"
 import { X } from "lucide-react"
@@ -37,9 +37,9 @@ export function Dialog({ open, onClose, children }: DialogProps) {
     }
   }, [open, onClose])
 
-  return (
+  return createPortal(
     <AnimatePresence>
-      {open && createPortal(
+      {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
@@ -51,10 +51,10 @@ export function Dialog({ open, onClose, children }: DialogProps) {
           <div className="relative w-full max-w-lg z-50">
             {children}
           </div>
-        </div>,
-        document.body
+        </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
 

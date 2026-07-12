@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { Search, Monitor, Moon, Sun, ArrowRight, Laptop, Calendar, ShieldCheck, Database, Building2 } from "lucide-react"
 import { Dialog, DialogContent } from "@/components/ui/Dialog"
 import { useTheme } from "@/contexts/ThemeContext"
@@ -13,17 +13,6 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const { setTheme } = useTheme()
   const navigate = useNavigate()
   const [search, setSearch] = React.useState("")
-
-  React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        if (open) onClose()
-      }
-    }
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [open, onClose])
 
   const items = [
     {
