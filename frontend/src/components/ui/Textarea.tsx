@@ -13,7 +13,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div className="w-full">
         <textarea
           className={cn(
-            "flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-y",
+            "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2.5 text-[14px] font-normal shadow-sm transition-colors placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-y leading-relaxed",
             error && "border-destructive focus-visible:ring-destructive",
             className
           )}
@@ -21,10 +21,10 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...props}
         />
         {error && (
-          <p className="mt-1 text-xs font-medium text-destructive">{error}</p>
+          <p className="mt-1.5 text-[12px] font-medium text-destructive">{error}</p>
         )}
         {!error && helperText && (
-          <p className="mt-1 text-xs text-muted-foreground">{helperText}</p>
+          <p className="mt-1.5 text-[12px] text-muted-foreground">{helperText}</p>
         )}
       </div>
     )

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { createPortal } from "react-dom"
 import { AnimatePresence, motion } from "framer-motion"
 import { X } from "lucide-react"
 import { cn } from "@/utils/cn"
@@ -26,16 +27,19 @@ export function Dialog({ open, onClose, children }: DialogProps) {
       if (e.key === "Escape") onClose()
     }
     if (open) {
-      window.addEventListener("keydown", handleKeyDown)
+      window.addEventListener("keydown", handleEscapeKeys)
+    }
+    function handleEscapeKeys(e: KeyboardEvent) {
+      handleKeyDown(e)
     }
     return () => {
-      window.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("keydown", handleEscapeKeys)
     }
   }, [open, onClose])
 
   return (
     <AnimatePresence>
-      {open && (
+      {open && createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
@@ -47,7 +51,8 @@ export function Dialog({ open, onClose, children }: DialogProps) {
           <div className="relative w-full max-w-lg z-50">
             {children}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </AnimatePresence>
   )
@@ -124,7 +129,7 @@ export function DialogTitle({
   return (
     <h2
       className={cn(
-        "text-lg font-semibold leading-none tracking-tight text-foreground/90",
+        "text-[18px] font-semibold leading-tight tracking-tight text-foreground",
         className
       )}
       {...props}
@@ -138,7 +143,7 @@ export function DialogDescription({
 }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-[13px] font-normal text-muted-foreground leading-relaxed", className)}
       {...props}
     />
   )

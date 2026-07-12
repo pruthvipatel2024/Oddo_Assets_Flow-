@@ -1,5 +1,13 @@
 [
   {
+    "id": "hist_cttpovgmh",
+    "assetTag": "AF-0002",
+    "date": "2026-07-12T09:44:55.097Z",
+    "type": "maintenance",
+    "details": "Logged repair ticket: anything. Priority: medium",
+    "performedBy": "Sarah Connor"
+  },
+  {
     "id": "hist_dizc4thwg",
     "assetTag": "AF-0002",
     "date": "2026-07-12T06:35:45.849Z",

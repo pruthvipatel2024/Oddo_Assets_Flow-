@@ -242,7 +242,7 @@ export function MaintenancePage() {
       accessor: (r) => {
         if (r.status === "Pending") {
           return (
-            <PermissionGuard permission="maintenance.manage">
+            <PermissionGuard permission="maintenance.approve" fallback={null}>
               <div className="flex items-center gap-1">
                 <Button size="sm" onClick={() => handleOpenAction(r, "approve")} className="h-7 text-[10px] bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer px-2">
                   <Check className="h-3 w-3 mr-0.5" /> Approve
@@ -256,7 +256,7 @@ export function MaintenancePage() {
         }
         if (r.status === "Approved") {
           return (
-            <PermissionGuard permission="maintenance.manage">
+            <PermissionGuard permission="maintenance.approve" fallback={null}>
               <Button size="sm" onClick={() => handleStartWork(r.id)} className="h-7 text-[10px] bg-amber-600 hover:bg-amber-700 text-white cursor-pointer px-2">
                 <Play className="h-3 w-3 mr-0.5" /> Start Work
               </Button>
@@ -265,7 +265,7 @@ export function MaintenancePage() {
         }
         if (r.status === "In Progress") {
           return (
-            <PermissionGuard permission="maintenance.manage">
+            <PermissionGuard permission="maintenance.approve" fallback={null}>
               <Button size="sm" onClick={() => handleOpenAction(r, "resolve")} className="h-7 text-[10px] bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer px-2">
                 <CheckCircle className="h-3 w-3 mr-0.5" /> Resolve Ticket
               </Button>

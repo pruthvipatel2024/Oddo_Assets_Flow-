@@ -508,7 +508,7 @@ export function DashboardPage() {
                         </span>
                       </TableCell>
                       <TableCell className="text-xs text-right py-3">
-                        <PermissionGuard permission="transfer.approve">
+                        <PermissionGuard permission="asset.transfer" fallback={null}>
                           <div className="flex items-center justify-end gap-1.5">
                             <Button
                               variant="ghost"

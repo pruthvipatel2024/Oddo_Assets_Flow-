@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 import { Button } from "./Button"
 import { cn } from "@/utils/cn"
@@ -42,7 +43,7 @@ export function Drawer({
     xl: "max-w-2xl",
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 overflow-hidden select-none">
       {/* Backdrop */}
       <div
@@ -59,11 +60,11 @@ export function Drawer({
           )}
         >
           {/* Header */}
-          <div className="px-6 py-4.5 border-b border-border/60 flex items-center justify-between">
-            <div className="space-y-0.5">
-              <h2 className="text-sm font-bold tracking-wide text-foreground/90 uppercase">{title}</h2>
+          <div className="px-6 py-5 border-b border-border/60 flex items-center justify-between">
+            <div className="space-y-1">
+              <h2 className="text-[18px] font-semibold text-foreground tracking-tight">{title}</h2>
               {description && (
-                <p className="text-[11px] text-muted-foreground font-medium leading-normal">{description}</p>
+                <p className="text-[13px] text-muted-foreground font-normal leading-relaxed">{description}</p>
               )}
             </div>
             <Button
@@ -89,6 +90,8 @@ export function Drawer({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
+

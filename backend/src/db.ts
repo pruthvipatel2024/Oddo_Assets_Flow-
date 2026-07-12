@@ -352,8 +352,9 @@ const ASSETS_SEED: Asset[] = [
     condition: "new",
     location: "IT Storage Room A",
     sharedFlag: false,
-    status: "Available",
+    status: "Allocated",
     customFields: { RAM: "16GB", Processor: "M3 Pro", Storage: "512GB SSD" },
+    assignedToUserId: "usr_admin",
   },
   {
     tag: "AF-0002",
@@ -881,8 +882,9 @@ const ASSETS_SEED: Asset[] = [
     condition: "new",
     location: "IT Storage Room B",
     sharedFlag: false,
-    status: "Available",
-    customFields: { RAM: "16GB", Processor: "Intel i5-1345U", Storage: "512GB SSD" },
+    status: "Allocated",
+    customFields: { RAM: "16GB", Processor: "Intel i7-1365H", Storage: "512GB SSD" },
+    assignedToUserId: "usr_employee",
   },
   {
     tag: "AF-0042",
@@ -1399,22 +1401,128 @@ const ASSETS_SEED: Asset[] = [
   },
 ]
 
-const INITIAL_DB: DatabaseCollections = {
+// --- ALLOCATIONS SEED ---
+const ALLOCATIONS_SEED: AssetAllocation[] = [
+  { id: "alloc_1", assetTag: "AF-0001", userId: "usr_admin", departmentId: "dept_1", allocatedAt: "2026-02-01T09:00:00Z", expectedReturnDate: "2027-02-01", status: "active" },
+  { id: "alloc_2", assetTag: "AF-0003", userId: "usr_employee", departmentId: "dept_4", allocatedAt: "2025-12-10T10:00:00Z", expectedReturnDate: "2026-12-10", status: "active" },
+  { id: "alloc_3", assetTag: "AF-0005", userId: "usr_manager", departmentId: "dept_2", allocatedAt: "2026-01-20T11:00:00Z", expectedReturnDate: "2027-01-20", status: "active" },
+  { id: "alloc_4", assetTag: "AF-0007", userId: "usr_dept_head", departmentId: "dept_3", allocatedAt: "2025-10-05T09:30:00Z", expectedReturnDate: "2026-10-05", status: "active" },
+  { id: "alloc_5", assetTag: "AF-0011", userId: "usr_admin", departmentId: "dept_1", allocatedAt: "2025-08-15T08:00:00Z", expectedReturnDate: "2026-08-15", status: "active" },
+  { id: "alloc_6", assetTag: "AF-0013", userId: "usr_employee", departmentId: "dept_4", allocatedAt: "2026-03-01T14:00:00Z", expectedReturnDate: "2027-03-01", status: "active" },
+  { id: "alloc_7", assetTag: "AF-0022", userId: "usr_admin", departmentId: "dept_1", allocatedAt: "2025-04-10T09:00:00Z", expectedReturnDate: "2026-04-10", status: "active" },
+  { id: "alloc_8", assetTag: "AF-0041", userId: "usr_manager", departmentId: "dept_2", allocatedAt: "2026-01-05T10:30:00Z", expectedReturnDate: "2027-01-05", status: "active" },
+  { id: "alloc_9", assetTag: "AF-0002", userId: "usr_dept_head", departmentId: "dept_3", allocatedAt: "2025-06-20T09:00:00Z", expectedReturnDate: "2026-06-20", returnedAt: "2026-04-15T16:00:00Z", returnConditionNotes: "Good condition, minor wear on keyboard", status: "returned" },
+  { id: "alloc_10", assetTag: "AF-0009", userId: "usr_employee", departmentId: "dept_4", allocatedAt: "2025-09-10T08:30:00Z", expectedReturnDate: "2026-03-10", returnedAt: "2026-02-28T17:00:00Z", returnConditionNotes: "Battery replaced before return", status: "returned" },
+  { id: "alloc_11", assetTag: "AF-0051", userId: "usr_dept_head", departmentId: "dept_3", allocatedAt: "2025-11-22T10:00:00Z", expectedReturnDate: "2026-11-22", status: "active" },
+  { id: "alloc_12", assetTag: "AF-0044", userId: "usr_admin", departmentId: "dept_1", allocatedAt: "2025-07-18T13:00:00Z", expectedReturnDate: "2026-07-18", status: "active" },
+]
+
+// --- TRANSFERS SEED ---
+const TRANSFERS_SEED: TransferRequest[] = [
+  { id: "txr_1", assetTag: "AF-0004", fromUserId: "usr_employee", toUserId: "usr_manager", departmentId: "dept_2", status: "Approved", requestedAt: "2026-05-10T09:00:00Z", requestedByUserId: "usr_employee", approvedByUserId: "usr_admin" },
+  { id: "txr_2", assetTag: "AF-0008", fromUserId: "usr_manager", toUserId: "usr_dept_head", departmentId: "dept_3", status: "Pending", requestedAt: "2026-06-22T11:00:00Z", requestedByUserId: "usr_manager" },
+  { id: "txr_3", assetTag: "AF-0015", fromUserId: "usr_dept_head", toUserId: "usr_employee", departmentId: "dept_4", status: "Approved", requestedAt: "2026-04-05T14:30:00Z", requestedByUserId: "usr_dept_head", approvedByUserId: "usr_admin" },
+  { id: "txr_4", assetTag: "AF-0042", fromUserId: "usr_admin", toUserId: "usr_employee", departmentId: "dept_4", status: "Rejected", requestedAt: "2026-03-18T10:00:00Z", requestedByUserId: "usr_admin", approvedByUserId: "usr_manager" },
+  { id: "txr_5", assetTag: "AF-0025", fromUserId: "usr_employee", toUserId: "usr_admin", departmentId: "dept_1", status: "Pending", requestedAt: "2026-07-01T08:15:00Z", requestedByUserId: "usr_employee" },
+  { id: "txr_6", assetTag: "AF-0061", fromUserId: "usr_admin", toUserId: "usr_dept_head", departmentId: "dept_3", status: "Approved", requestedAt: "2026-06-10T15:00:00Z", requestedByUserId: "usr_admin", approvedByUserId: "usr_manager" },
+]
+
+// --- BOOKINGS SEED ---
+const BOOKINGS_SEED: ResourceBooking[] = [
+  { id: "bk_1", assetTag: "AF-0031", bookedByUserId: "usr_admin", departmentId: "dept_1", startTime: "2026-07-14T09:00:00Z", endTime: "2026-07-14T11:00:00Z", status: "Upcoming", notes: "Quarterly IT review meeting" },
+  { id: "bk_2", assetTag: "AF-0032", bookedByUserId: "usr_manager", departmentId: "dept_2", startTime: "2026-07-14T14:00:00Z", endTime: "2026-07-14T16:00:00Z", status: "Upcoming", notes: "Asset procurement planning" },
+  { id: "bk_3", assetTag: "AF-0033", bookedByUserId: "usr_dept_head", departmentId: "dept_3", startTime: "2026-07-13T10:00:00Z", endTime: "2026-07-13T12:00:00Z", status: "Ongoing", notes: "Design sprint kickoff" },
+  { id: "bk_4", assetTag: "AF-0034", bookedByUserId: "usr_employee", departmentId: "dept_4", startTime: "2026-07-10T09:00:00Z", endTime: "2026-07-10T17:00:00Z", status: "Completed", notes: "Full-day R&D hackathon" },
+  { id: "bk_5", assetTag: "AF-0071", bookedByUserId: "usr_admin", departmentId: "dept_1", startTime: "2026-07-15T08:00:00Z", endTime: "2026-07-15T10:00:00Z", status: "Upcoming", notes: "One-on-one performance review" },
+  { id: "bk_6", assetTag: "AF-0074", bookedByUserId: "usr_manager", departmentId: "dept_2", startTime: "2026-07-12T13:00:00Z", endTime: "2026-07-12T15:00:00Z", status: "Completed", notes: "Client demo presentation" },
+  { id: "bk_7", assetTag: "AF-0078", bookedByUserId: "usr_dept_head", departmentId: "dept_3", startTime: "2026-07-20T09:00:00Z", endTime: "2026-07-20T12:00:00Z", status: "Upcoming", notes: "Company town hall event" },
+  { id: "bk_8", assetTag: "AF-0035", bookedByUserId: "usr_employee", departmentId: "dept_4", startTime: "2026-07-08T14:00:00Z", endTime: "2026-07-08T16:00:00Z", status: "Cancelled", notes: "Postponed product review" },
+]
+
+// --- MAINTENANCE SEED ---
+const MAINTENANCE_SEED: MaintenanceRequest[] = [
+  { id: "mnt_1", assetTag: "AF-0002", requestedByUserId: "usr_dept_head", approvedByUserId: "usr_admin", technicianUserId: "usr_manager", description: "Keyboard not responding intermittently, trackpad double-clicking issue", priority: "high", status: "In Progress", notes: "Replacement keyboard ordered", createdAt: "2026-06-25T09:00:00Z", updatedAt: "2026-07-02T14:00:00Z" },
+  { id: "mnt_2", assetTag: "AF-0006", requestedByUserId: "usr_employee", approvedByUserId: "usr_admin", description: "Display flickering on external monitor connection", priority: "medium", status: "Approved", createdAt: "2026-07-01T11:00:00Z", updatedAt: "2026-07-03T09:00:00Z" },
+  { id: "mnt_3", assetTag: "AF-0021", requestedByUserId: "usr_manager", description: "Scheduled 50,000 km service for shuttle van", priority: "medium", status: "Pending", createdAt: "2026-07-05T08:30:00Z", updatedAt: "2026-07-05T08:30:00Z" },
+  { id: "mnt_4", assetTag: "AF-0014", requestedByUserId: "usr_dept_head", approvedByUserId: "usr_manager", technicianUserId: "usr_manager", description: "Hydraulic lift mechanism stiff, needs lubrication and height adjustment calibration", priority: "low", status: "Resolved", notes: "Fixed — chair re-calibrated and lubricated", createdAt: "2026-05-15T10:00:00Z", updatedAt: "2026-05-20T16:00:00Z" },
+  { id: "mnt_5", assetTag: "AF-0047", requestedByUserId: "usr_admin", description: "NAS RAID array showing degraded status on disk 3", priority: "high", status: "Pending", createdAt: "2026-07-08T07:45:00Z", updatedAt: "2026-07-08T07:45:00Z" },
+  { id: "mnt_6", assetTag: "AF-0027", requestedByUserId: "usr_manager", approvedByUserId: "usr_admin", description: "Annual service and brake pad replacement for Fortuner", priority: "medium", status: "Approved", notes: "Scheduled for next week at authorized dealer", createdAt: "2026-06-28T09:00:00Z", updatedAt: "2026-07-04T11:30:00Z" },
+]
+
+// --- AUDITS SEED ---
+const AUDITS_SEED: AuditCycle[] = [
+  {
+    id: "aud_1", name: "Q2 2026 IT Asset Audit", scopeDepartmentId: "dept_1", startDate: "2026-04-01", endDate: "2026-06-30",
+    assignedAuditorUserId: "usr_manager", createdByUserId: "usr_admin", status: "Closed",
+    results: { "AF-0001": "Verified", "AF-0003": "Verified", "AF-0005": "Verified", "AF-0007": "Verified", "AF-0009": "Damaged", "AF-0041": "Verified", "AF-0044": "Verified", "AF-0047": "Missing" },
+    notes: "AF-0009 battery issue noted. AF-0047 NAS not at expected location during audit — found in Server Room A."
+  },
+  {
+    id: "aud_2", name: "Q2 2026 Facilities Audit", scopeDepartmentId: "dept_2", startDate: "2026-04-01", endDate: "2026-06-30",
+    assignedAuditorUserId: "usr_admin", createdByUserId: "usr_manager", status: "Closed",
+    results: { "AF-0011": "Verified", "AF-0013": "Verified", "AF-0014": "Verified", "AF-0016": "Verified", "AF-0051": "Verified", "AF-0053": "Verified" },
+    notes: "All furniture assets verified and in expected condition."
+  },
+  {
+    id: "aud_3", name: "Q3 2026 Full Organization Audit", startDate: "2026-07-01", endDate: "2026-09-30",
+    assignedAuditorUserId: "usr_manager", createdByUserId: "usr_admin", status: "Active",
+    results: { "AF-0001": "Verified", "AF-0011": "Verified", "AF-0022": "Verified" },
+    notes: "In progress — scheduled to complete by end of September."
+  },
+]
+
+// --- ACTIVITY LOGS SEED ---
+const LOGS_SEED: ActivityLog[] = [
+  { id: "log_1", userId: "usr_admin", userName: "Sarah Connor", userRole: "sys_admin", action: "Login", entity: "auth", entityId: "usr_admin", previousValue: "", newValue: "Logged in from 192.168.1.100", timestamp: "2026-07-12T08:00:00Z" },
+  { id: "log_2", userId: "usr_admin", userName: "Sarah Connor", userRole: "sys_admin", action: "Allocate Asset", entity: "allocation", entityId: "alloc_1", previousValue: "Available", newValue: "Allocated to Sarah Connor (dept_1)", timestamp: "2026-02-01T09:05:00Z" },
+  { id: "log_3", userId: "usr_manager", userName: "Alex Mercer", userRole: "asset_manager", action: "Create Asset", entity: "asset", entityId: "AF-0041", previousValue: "", newValue: "Dell Latitude 5540 added to inventory", timestamp: "2025-11-08T10:30:00Z" },
+  { id: "log_4", userId: "usr_admin", userName: "Sarah Connor", userRole: "sys_admin", action: "Approve Transfer", entity: "transfer", entityId: "txr_1", previousValue: "Pending", newValue: "Approved — AF-0004 transferred to Alex Mercer", timestamp: "2026-05-12T14:00:00Z" },
+  { id: "log_5", userId: "usr_employee", userName: "Bruce Wayne", userRole: "employee", action: "Request Booking", entity: "booking", entityId: "bk_4", previousValue: "", newValue: "Booked Training Hall A for R&D hackathon", timestamp: "2026-07-08T08:00:00Z" },
+  { id: "log_6", userId: "usr_dept_head", userName: "Clark Kent", userRole: "dept_head", action: "Submit Maintenance", entity: "maintenance", entityId: "mnt_1", previousValue: "", newValue: "Reported keyboard issue on ThinkPad X1 Carbon", timestamp: "2026-06-25T09:10:00Z" },
+  { id: "log_7", userId: "usr_admin", userName: "Sarah Connor", userRole: "sys_admin", action: "Approve Maintenance", entity: "maintenance", entityId: "mnt_1", previousValue: "Pending", newValue: "Approved — assigned to Alex Mercer", timestamp: "2026-06-26T10:00:00Z" },
+  { id: "log_8", userId: "usr_manager", userName: "Alex Mercer", userRole: "asset_manager", action: "Start Audit", entity: "audit", entityId: "aud_3", previousValue: "", newValue: "Q3 2026 Full Organization Audit initiated", timestamp: "2026-07-01T09:00:00Z" },
+  { id: "log_9", userId: "usr_admin", userName: "Sarah Connor", userRole: "sys_admin", action: "Allocate Asset", entity: "allocation", entityId: "alloc_7", previousValue: "Available", newValue: "Executive Sedan Camry allocated to Sarah Connor", timestamp: "2025-04-10T09:15:00Z" },
+  { id: "log_10", userId: "usr_employee", userName: "Bruce Wayne", userRole: "employee", action: "Return Asset", entity: "allocation", entityId: "alloc_10", previousValue: "Allocated", newValue: "AF-0009 returned — battery replaced before return", timestamp: "2026-02-28T17:05:00Z" },
+  { id: "log_11", userId: "usr_manager", userName: "Alex Mercer", userRole: "asset_manager", action: "Close Audit", entity: "audit", entityId: "aud_1", previousValue: "Active", newValue: "Q2 IT Asset Audit closed — 6 verified, 1 damaged, 1 missing", timestamp: "2026-06-30T17:00:00Z" },
+  { id: "log_12", userId: "usr_dept_head", userName: "Clark Kent", userRole: "dept_head", action: "Request Transfer", entity: "transfer", entityId: "txr_3", previousValue: "", newValue: "Requested transfer of AF-0015 to R&D", timestamp: "2026-04-05T14:35:00Z" },
+  { id: "log_13", userId: "usr_admin", userName: "Sarah Connor", userRole: "sys_admin", action: "Create User", entity: "user", entityId: "usr_employee", previousValue: "", newValue: "Bruce Wayne (AF-EMP-03) added as Employee", timestamp: "2025-01-15T10:00:00Z" },
+  { id: "log_14", userId: "usr_manager", userName: "Alex Mercer", userRole: "asset_manager", action: "Update Asset", entity: "asset", entityId: "AF-0021", previousValue: "Mileage: 42000", newValue: "Mileage: 45000 — post-service update", timestamp: "2026-05-20T11:30:00Z" },
+  { id: "log_15", userId: "usr_admin", userName: "Sarah Connor", userRole: "sys_admin", action: "Login", entity: "auth", entityId: "usr_admin", previousValue: "", newValue: "Logged in from 10.0.0.55", timestamp: "2026-07-11T08:15:00Z" },
+  { id: "log_16", userId: "usr_manager", userName: "Alex Mercer", userRole: "asset_manager", action: "Login", entity: "auth", entityId: "usr_manager", previousValue: "", newValue: "Logged in from 10.0.0.78", timestamp: "2026-07-11T08:45:00Z" },
+  { id: "log_17", userId: "usr_employee", userName: "Bruce Wayne", userRole: "employee", action: "Cancel Booking", entity: "booking", entityId: "bk_8", previousValue: "Upcoming", newValue: "Cancelled — product review postponed", timestamp: "2026-07-07T10:00:00Z" },
+  { id: "log_18", userId: "usr_admin", userName: "Sarah Connor", userRole: "sys_admin", action: "Reject Transfer", entity: "transfer", entityId: "txr_4", previousValue: "Pending", newValue: "Rejected — asset needed in IT dept", timestamp: "2026-03-20T09:30:00Z" },
+  { id: "log_19", userId: "usr_manager", userName: "Alex Mercer", userRole: "asset_manager", action: "Resolve Maintenance", entity: "maintenance", entityId: "mnt_4", previousValue: "In Progress", newValue: "Resolved — chair re-calibrated and lubricated", timestamp: "2026-05-20T16:05:00Z" },
+  { id: "log_20", userId: "usr_dept_head", userName: "Clark Kent", userRole: "dept_head", action: "Login", entity: "auth", entityId: "usr_dept_head", previousValue: "", newValue: "Logged in from 10.0.1.22", timestamp: "2026-07-12T09:00:00Z" },
+]
+
+// --- NOTIFICATIONS SEED ---
+const NOTIFICATIONS_SEED: Notification[] = [
+  { id: "not_1", userId: "usr_admin", title: "Maintenance Request Submitted", message: "Clark Kent reported a keyboard issue on ThinkPad X1 Carbon (AF-0002). Review and approve.", type: "maintenance", read: false, timestamp: "2026-06-25T09:15:00Z" },
+  { id: "not_2", userId: "usr_admin", title: "Transfer Request Pending", message: "Bruce Wayne requested transfer of AF-0025 to IT Infrastructure department.", type: "approval", read: false, timestamp: "2026-07-01T08:20:00Z" },
+  { id: "not_3", userId: "usr_manager", title: "Audit Assignment", message: "You have been assigned as auditor for Q3 2026 Full Organization Audit.", type: "audit", read: false, timestamp: "2026-07-01T09:05:00Z" },
+  { id: "not_4", userId: "usr_employee", title: "Asset Returned Successfully", message: "Your return of Dell Precision Tower (AF-0009) has been processed.", type: "general", read: true, timestamp: "2026-02-28T17:10:00Z" },
+  { id: "not_5", userId: "usr_dept_head", title: "Transfer Approved", message: "Your request to transfer Standing Desk Frame (AF-0015) has been approved by Sarah Connor.", type: "approval", read: true, timestamp: "2026-04-05T15:00:00Z" },
+  { id: "not_6", userId: "usr_admin", title: "NAS RAID Alert", message: "Synology NAS DS1522+ (AF-0047) reported degraded RAID status. Maintenance request submitted.", type: "maintenance", read: false, timestamp: "2026-07-08T07:50:00Z" },
+  { id: "not_7", userId: "usr_manager", title: "Booking Completed", message: "Client Demo Suite booking on Jul 12 has been marked as completed.", type: "general", read: true, timestamp: "2026-07-12T15:05:00Z" },
+  { id: "not_8", userId: "usr_admin", title: "Q2 IT Audit Closed", message: "Alex Mercer closed the Q2 2026 IT Asset Audit. Results: 6 verified, 1 damaged, 1 missing.", type: "audit", read: false, timestamp: "2026-06-30T17:05:00Z" },
+]
+
+export const INITIAL_DB: DatabaseCollections = {
   departments: DEPARTMENTS_SEED,
   categories: CATEGORIES_SEED,
   roles: ROLES_SEED,
   users: USERS_SEED,
   assets: ASSETS_SEED,
-  allocations: [],
-  transfers: [],
-  bookings: [],
-  maintenance: [],
-  audits: [],
-  logs: [],
-  notifications: [],
+  allocations: ALLOCATIONS_SEED,
+  transfers: TRANSFERS_SEED,
+  bookings: BOOKINGS_SEED,
+  maintenance: MAINTENANCE_SEED,
+  audits: AUDITS_SEED,
+  logs: LOGS_SEED,
+  notifications: NOTIFICATIONS_SEED,
 }
 
-function mapCollectionToTableName(key: string): string {
+export function mapCollectionToTableName(key: string): string {
   if (key === "bookings") return "bookings"
   if (key === "maintenance") return "maintenance"
   return key
@@ -1579,7 +1687,7 @@ function mapRowToCollectionItem(key: string, row: any): any {
   }
 }
 
-function getInsertQueryAndValues(key: string, item: any): { query: string; values: any[] } {
+export function getInsertQueryAndValues(key: string, item: any): { query: string; values: any[] } {
   switch (key) {
     case "departments":
       return {
@@ -1770,7 +1878,7 @@ async function syncTableToPostgres(pool: Pool, key: string, data: any[]): Promis
 export class Database {
   private static pool: Pool | null = null
   private static activePostgres = false
-  private static memoryCache: DatabaseCollections = INITIAL_DB
+  private static memoryCache: DatabaseCollections = JSON.parse(JSON.stringify(INITIAL_DB))
 
   static async initialize(): Promise<void> {
     const url = process.env.DATABASE_URL
@@ -1966,6 +2074,24 @@ export class Database {
     for (const statement of statements) {
       await this.pool.query(statement)
     }
+    await this.pool.query("ALTER TABLE assets ADD COLUMN IF NOT EXISTS assigned_to_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE allocations ADD COLUMN IF NOT EXISTS user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE allocations ADD COLUMN IF NOT EXISTS department_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE departments ADD COLUMN IF NOT EXISTS manager_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE transfers ADD COLUMN IF NOT EXISTS from_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE transfers ADD COLUMN IF NOT EXISTS to_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE transfers ADD COLUMN IF NOT EXISTS department_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE transfers ADD COLUMN IF NOT EXISTS requested_by_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE transfers ADD COLUMN IF NOT EXISTS approved_by_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS booked_by_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS department_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE maintenance ADD COLUMN IF NOT EXISTS requested_by_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE maintenance ADD COLUMN IF NOT EXISTS approved_by_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE maintenance ADD COLUMN IF NOT EXISTS technician_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE audits ADD COLUMN IF NOT EXISTS assigned_auditor_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE audits ADD COLUMN IF NOT EXISTS created_by_user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE logs ADD COLUMN IF NOT EXISTS user_id VARCHAR(255)")
+    await this.pool.query("ALTER TABLE notifications ADD COLUMN IF NOT EXISTS user_id VARCHAR(255)")
   }
 
   private static async seedPostgresIfEmpty(): Promise<void> {
