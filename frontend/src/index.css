@@ -101,11 +101,27 @@
     @apply border-border;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
+  html {
+    font-size: 15.5px; /* Bumps all rem-based sizing proportionally */
+  }
   body {
     @apply bg-background text-foreground font-sans antialiased;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-size: 1rem;
+    line-height: 1.65;
+    font-weight: 400;
   }
+  /* Lift micro text sizes globally for readability */
+  .text-\[10px\] { font-size: 0.75rem !important; }   /* 10px → 12px */
+  .text-\[11px\] { font-size: 0.8125rem !important; } /* 11px → 13px */
+  .text-\[9px\]  { font-size: 0.6875rem !important; } /* 9px → 11px  */
+  .text-xs       { font-size: 0.8125rem !important; } /* 12px → 13px */
+  .text-sm       { font-size: 0.9375rem !important; } /* 14px → 15px */
+  h1 { font-size: 1.875rem; font-weight: 800; }
+  h2 { font-size: 1.5rem;   font-weight: 700; }
+  h3 { font-size: 1.25rem;  font-weight: 600; }
+  h4 { font-size: 1.1rem;   font-weight: 600; }
 }
 
 /* Scrollbar styles */

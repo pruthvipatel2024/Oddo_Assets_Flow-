@@ -135,7 +135,7 @@ export function DashboardLayout() {
         <div className="p-3 border-b border-border/40 relative">
           <div
             className={cn(
-              "w-full flex items-center gap-2 px-2 py-1.5 text-left text-xs font-semibold select-none",
+              "w-full flex items-center gap-2 px-2 py-1.5 text-left text-sm font-semibold select-none",
               isSidebarCollapsed ? "justify-center" : "justify-start"
             )}
           >
@@ -143,8 +143,8 @@ export function DashboardLayout() {
               <Building2 className="h-4 w-4 text-muted-foreground" />
             ) : (
               <div className="truncate">
-                <span className="text-[10px] text-muted-foreground font-medium block uppercase tracking-wider">Workspace</span>
-                <span className="truncate block font-semibold text-foreground/90">Corporate HQ (Primary)</span>
+                <span className="text-xs text-muted-foreground font-semibold block uppercase tracking-wider">Workspace</span>
+                <span className="truncate block font-bold text-foreground/90 text-sm">Corporate HQ (Primary)</span>
               </div>
             )}
           </div>
@@ -155,7 +155,7 @@ export function DashboardLayout() {
           {filteredNavigation.map((group) => (
             <div key={group.group} className="space-y-1">
               {!isSidebarCollapsed && (
-                <h4 className="px-2 py-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                <h4 className="px-2 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                   {group.group}
                 </h4>
               )}
@@ -167,14 +167,14 @@ export function DashboardLayout() {
                     to={item.href}
                     className={({ isActive }) =>
                       cn(
-                        "flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-all group",
+                        "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all group",
                         isActive
-                          ? "bg-secondary text-foreground font-semibold"
+                          ? "bg-secondary text-foreground font-bold"
                           : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
                       )
                     }
                   >
-                    <Icon className="h-4 w-4 shrink-0 transition-colors group-hover:text-primary" />
+                    <Icon className="h-4.5 w-4.5 shrink-0 transition-colors group-hover:text-primary" />
                     {!isSidebarCollapsed && <span>{item.name}</span>}
                   </NavLink>
                 )
@@ -192,7 +192,7 @@ export function DashboardLayout() {
             {isSidebarCollapsed ? (
               <ChevronsRight className="h-4 w-4" />
             ) : (
-              <div className="flex items-center gap-2 text-xs font-medium">
+              <div className="flex items-center gap-2 text-sm font-semibold">
                 <ChevronsLeft className="h-4 w-4" />
                 <span>Collapse Sidebar</span>
               </div>
@@ -217,7 +217,7 @@ export function DashboardLayout() {
             </Button>
 
             {/* Breadcrumbs */}
-            <div className="hidden sm:flex items-center gap-1.5 text-xs text-muted-foreground select-none">
+            <div className="hidden sm:flex items-center gap-1.5 text-sm text-muted-foreground select-none font-medium">
               <Link to="/dashboard" className="hover:text-foreground transition-colors">
                 AssetFlow
               </Link>
